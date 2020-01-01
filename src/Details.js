@@ -56,7 +56,6 @@ class Details extends Component {
     }
     const {
       animal,
-      url,
       breed,
       location,
       name,

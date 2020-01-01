@@ -4,14 +4,21 @@
   "description": "React v5",
   "main": "src/App.js",
   "dependencies": {
+    "@babel/node": "^7.7.7",
+    "@babel/runtime": "^7.7.7",
+    "@emotion/babel-preset-css-prop": "^10.0.27",
+    "@emotion/core": "^10.0.27",
     "@frontendmasters/pet": "^1.0.3",
     "@reach/router": "^1.2.1",
+    "express": "^4.17.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.7.7",
     "@babel/core": "^7.0.0-0",
     "@babel/plugin-proposal-class-properties": "^7.7.4",
+    "@babel/plugin-transform-runtime": "^7.7.6",
     "@babel/preset-env": "^7.7.7",
     "@babel/preset-react": "^7.7.4",
     "cross-env": "^6.0.3",
@@ -20,9 +27,10 @@
   "scripts": {
     "clear-build-cache": "rm -rf .cache/ dist/",
     "dev": "parcel src/index.html",
-    "build": "parcel build src/index.html",
+    "build": "parcel build --public-url ./dist/ src/index.html",
     "dev:mock": "cross-env PET_MOCK=mock parcel src/index.html",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm -s run build && babel-node server/index.js"
   },
   "browserslist": [
     "last 2 Chrome versions",

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ThemeContext from "./ThemeContext";
 
 class Carousel extends Component {
   constructor(props) {
@@ -37,13 +38,18 @@ class Carousel extends Component {
                 className={index === active ? "active" : ""}
                 alt="animal thumbnail"
               />
-              <button
-                type="button"
-                data-index={index}
-                onClick={this.handleIndexClick}
-              >
-                *
-              </button>
+              <ThemeContext.Consumer>
+                {([theme]) => (
+                  <button
+                    style={{ backgroundColor: theme }}
+                    type="button"
+                    data-index={index}
+                    onClick={this.handleIndexClick}
+                  >
+                    *
+                  </button>
+                )}
+              </ThemeContext.Consumer>
             </div>
           ))}
         </div>

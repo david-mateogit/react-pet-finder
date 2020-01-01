@@ -1,28 +1,28 @@
-import React, { useState } from "react";
-import ReactDOM from "react-dom";
-import { Router, Link } from "@reach/router";
+/* eslint-disable import/no-unresolved */
+import React, { useState, lazy, Suspense } from "react";
+import { Router } from "@reach/router";
+import NavBar from "./NavBar";
 import SearchParams from "./SearchParams";
 import Details from "./Details";
 import ThemeContext from "./ThemeContext";
-import "@babel/polyfill";
+
+// const Details = lazy(() => import("./Details"));
 
 const App = () => {
   const themeHook = useState("darkblue");
   return (
     <React.StrictMode>
       <ThemeContext.Provider value={themeHook}>
-        <header>
-          <Link to="/">
-            <h1>Adopt Me!</h1>
-          </Link>
-        </header>
+        <NavBar />
+        {/* <Suspense fallback={<h1>loading route...</h1>}> */}
         <Router>
           <SearchParams path="/" />
           <Details path="/details/:id" />
         </Router>
+        {/* </Suspense> */}
       </ThemeContext.Provider>
     </React.StrictMode>
   );
 };
 
-ReactDOM.render(<App />, document.getElementById("root"));
+export default App;
