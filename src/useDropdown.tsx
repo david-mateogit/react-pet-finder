@@ -1,20 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, FunctionComponent, Dispatch } from "react";
 
-const useDropdown = (label, defaultState, options) => {
+const useDropdown = (label: string, defaultState: string, options: string[]) => {
   const [state, updateState] = useState(defaultState);
   const id = `use-dropdown-${label.replace(" ", "").toLowerCase()}`;
-  const Dropdown = () => (
+  const Dropdown: FunctionComponent = () => (
     <label htmlFor={id}>
       {label}
       <select
         id={id}
         value={state}
-        onChange={e => updateState(e.target.value)}
-        onBlur={e => updateState(e.target.value)}
+        onChange={(e) => updateState(e.target.value)}
+        onBlur={(e) => updateState(e.target.value)}
         disabled={!options.length}
       >
         <option value="All">All</option>
-        {options.map(item => (
+        {options.map((item) => (
           <option key={item} value={item}>
             {item}
           </option>
@@ -22,7 +22,7 @@ const useDropdown = (label, defaultState, options) => {
       </select>
     </label>
   );
-  return [state, Dropdown, updateState];
+  return [state, Dropdown, updateState] as [string, FunctionComponent, Dispatch<string>];
 };
 
 export default useDropdown;

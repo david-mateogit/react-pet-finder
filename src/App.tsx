@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import React, { useState, lazy, Suspense } from "react";
 import { Router } from "@reach/router";
 import NavBar from "./NavBar";

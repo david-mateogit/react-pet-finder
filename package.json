@@ -21,8 +21,24 @@
     "@babel/plugin-transform-runtime": "^7.7.6",
     "@babel/preset-env": "^7.7.7",
     "@babel/preset-react": "^7.7.4",
+    "@types/reach__router": "^1.2.6",
+    "@types/react": "^16.9.17",
+    "@types/react-dom": "^16.9.4",
+    "@typescript-eslint/eslint-plugin": "^2.14.0",
+    "@typescript-eslint/parser": "^2.14.0",
     "cross-env": "^6.0.3",
-    "parcel-bundler": "^1.12.4"
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-import-resolver-typescript": "^2.0.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-json": "^2.0.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.17.0",
+    "parcel-bundler": "^1.12.4",
+    "prettier": "^1.19.1",
+    "typescript": "^3.7.4"
   },
   "scripts": {
     "clear-build-cache": "rm -rf .cache/ dist/",
@@ -30,7 +46,8 @@
     "build": "parcel build --public-url ./dist/ src/index.html",
     "dev:mock": "cross-env PET_MOCK=mock parcel src/index.html",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm -s run build && babel-node server/index.js"
+    "start": "npm -s run build && babel-node server/index.js",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "browserslist": [
     "last 2 Chrome versions",

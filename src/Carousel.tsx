@@ -1,8 +1,18 @@
 import React, { Component } from "react";
+import { Photo } from "@frontendmasters/pet";
 import ThemeContext from "./ThemeContext";
 
-class Carousel extends Component {
-  constructor(props) {
+interface IProps {
+  media: Photo[];
+}
+
+interface IState {
+  active: number;
+  photos: string[];
+}
+
+class Carousel extends Component<IProps, IState> {
+  public constructor(props) {
     super(props);
     this.state = {
       photos: [],
@@ -10,7 +20,7 @@ class Carousel extends Component {
     };
   }
 
-  static getDerivedStateFromProps({ media }) {
+  public static getDerivedStateFromProps({ media }) {
     let photos = ["http://placeforgi.com/600/600"];
 
     if (media.length) {
@@ -20,12 +30,18 @@ class Carousel extends Component {
     return { photos };
   }
 
-  handleIndexClick = e => {
+  public handleIndexClick = (e: React.MouseEvent<HTMLElement>) => {
+    if (!(e.target instanceof HTMLElement)) {
+      return;
+    }
+
     const { index } = e.target.dataset;
-    this.setState({ active: +index });
+    if (index) {
+      this.setState({ active: +index });
+    }
   };
 
-  render() {
+  public render() {
     const { photos, active } = this.state;
     return (
       <div className="carousel">

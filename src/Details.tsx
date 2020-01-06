@@ -1,7 +1,6 @@
-/* eslint-disable react/destructuring-assignment */
 import React, { Component } from "react";
-import pet from "@frontendmasters/pet";
-import { navigate } from "@reach/router";
+import pet, { AnimalResponse, Photo } from "@frontendmasters/pet";
+import { navigate, RouteComponentProps } from "@reach/router";
 import Modal from "./Modal";
 import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
@@ -9,13 +8,29 @@ import Spinner from "./Spinner";
 import ThemeContext from "./ThemeContext";
 import ErrorComponent from "./ErrorComponent";
 
-class Details extends Component {
+
+interface IState {
+  name: string;
+  animal: string;
+  description: string;
+  location: string;
+  media: Photo[];
+  breed: string;
+  url: string;
+  loading: boolean;
+  showModal: boolean;
+  error: boolean;
+
+}
+
+class Details extends Component<RouteComponentProps<{ id: string }>, IState> {
   constructor(props) {
     super(props);
     this.state = {
       name: "",
       animal: "",
       description: "",
+      location: "",
       media: [],
       breed: "",
       url: "",
@@ -25,10 +40,15 @@ class Details extends Component {
     };
   }
 
-  componentDidMount() {
+  public componentDidMount() {
+    const { id } = this.props;
+    if (!id) {
+      navigate("/");
+      return;
+    }
     pet
-      .animal(this.props.id)
-      .then(({ animal }) => {
+      .animal(+id)
+      .then(({ animal }: AnimalResponse) => {
         this.setState({
           name: animal.name,
           animal: animal.type,
@@ -40,20 +60,17 @@ class Details extends Component {
           loading: false,
         });
       })
-      .catch(e => this.setState({ error: true }));
+      .catch(() => this.setState({ error: true }));
   }
 
-  toggleModal = () => this.setState({ showModal: !this.state.showModal });
+  toggleModal = () => this.setState((prevState) => ({ showModal: !prevState.showModal }));
 
-  adopt = () => navigate(this.state.url);
+  adopt = () => {
+    const { url } = this.state;
+    return navigate(url);
+  }
 
-  render() {
-    if (this.state.error) {
-      return <ErrorComponent />;
-    }
-    if (this.state.loading) {
-      return <Spinner />;
-    }
+  public render() {
     const {
       animal,
       breed,
@@ -62,7 +79,16 @@ class Details extends Component {
       description,
       media,
       showModal,
+      loading,
+      error,
     } = this.state;
+
+    if (error) {
+      return <ErrorComponent />;
+    }
+    if (loading) {
+      return <Spinner />;
+    }
 
     return (
       <div className="details">
@@ -77,7 +103,9 @@ class Details extends Component {
                 type="button"
                 onClick={this.toggleModal}
               >
-                Adopt {name}
+                Adopt
+                {" "}
+                {name}
               </button>
             )}
           </ThemeContext.Consumer>
@@ -86,7 +114,9 @@ class Details extends Component {
             <Modal onModalClose={() => this.setState({ showModal: false })}>
               <div>
                 <h1>
-                  Would you like to adopt <br />
+                  Would you like to adopt
+                  {" "}
+                  <br />
                   {name}
                 </h1>
                 <div className="buttons">
@@ -94,7 +124,7 @@ class Details extends Component {
                     Yes
                   </button>
                   <button type="button" onClick={this.toggleModal}>
-                    No, I'm a monster
+                    No, I&apos;m a monster
                   </button>
                 </div>
               </div>
@@ -106,7 +136,7 @@ class Details extends Component {
   }
 }
 
-export default function DetailsWithErrorBoundary(props) {
+export default function DetailsWithErrorBoundary(props: RouteComponentProps<{ id: string}>) {
   return (
     <ErrorBoundary>
       <Details {...props} />

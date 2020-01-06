@@ -1,8 +1,13 @@
-import React, { Component } from "react";
+import React, { Component, ErrorInfo } from "react";
 import { Link, Redirect } from "@reach/router";
 
-class ErrorBoundary extends Component {
-  constructor(props) {
+interface IState {
+  hasError: boolean;
+  redirect: boolean;
+}
+
+class ErrorBoundary extends Component<{}, IState> {
+  public constructor(props) {
     super(props);
     this.state = {
       hasError: false,
@@ -10,21 +15,22 @@ class ErrorBoundary extends Component {
     };
   }
 
-  static getDerivedStateFromError() {
+  public static getDerivedStateFromError() {
     return { hasError: true };
   }
 
-  componentDidUpdate() {
-    if (this.state.hasError) {
+  public componentDidUpdate() {
+    const { hasError } = this.state;
+    if (hasError) {
       setTimeout(() => this.setState({ redirect: true }), 5000);
     }
   }
 
-  componentDidCatch(error, info) {
+  public componentDidCatch(error: Error, info: ErrorInfo) {
     console.error("ErrorBoundary caught an error", error, info);
   }
 
-  render() {
+  public render() {
     const { hasError, redirect } = this.state;
     const { children } = this.props;
 
@@ -35,7 +41,10 @@ class ErrorBoundary extends Component {
       return (
         <div>
           <h1>
-            There was an error with this listing. <Link to="/">Click here</Link>{" "}
+            There was an error with this listing.
+            {" "}
+            <Link to="/">Click here</Link>
+            {" "}
             to go back to the home page or wait five seconds.
           </h1>
         </div>

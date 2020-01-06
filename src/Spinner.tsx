@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import { css, keyframes } from "@emotion/core";
 import ThemeContext from "./ThemeContext";
 
@@ -44,7 +44,7 @@ from, 0%, to {
   }
 }
 `;
-const Spinner = () => (
+const Spinner: FunctionComponent = () => (
   <ThemeContext.Consumer>
     {([theme]) => (
       <div
